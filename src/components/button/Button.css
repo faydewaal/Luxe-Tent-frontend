@@ -2,12 +2,5 @@
     background-color: #d2d2d2;
     border: none;
     padding: 10px 50px;
-    margin-left: 50px;
-}
-
-.button-transparent {
-    background-color: transparent;
-    border: none;
-    padding: 0 50px;
-    color: white;
+    margin: 0 50px;
 }

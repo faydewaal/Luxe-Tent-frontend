@@ -1,9 +1,25 @@
 import React from 'react';
 import './Button.css'
+import {
+    useHistory
+} from "react-router-dom";
 
-function Button({title, transparent}) {
+function Button({title}) {
+    const history = useHistory();
+
+    function handleClick() {
+        history.push("/login-pagina")
+    }
+
+
     return(
-        <button className={transparent === true ? 'button-transparent' : 'button' } type="button" onClick={() => console.log({title})}>{title}</button>
+        <button
+            className={'button' }
+            type="button"
+            onClick={handleClick}
+        >
+            {title}
+        </button>
     )
 }
 

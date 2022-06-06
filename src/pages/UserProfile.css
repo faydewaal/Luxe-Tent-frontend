@@ -1,0 +1,44 @@
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.overview {
+    margin-top:100px;
+}
+
+.add-tent {
+    padding: 20px 50px;
+    font-size: 1.5rem;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-top: -20px;
+    position: absolute;
+    z-index: 1;
+}
+
+.tent-form {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 40px;
+    background-color: white;
+    position: fixed;
+    width: 80%;
+    height: 80%;
+    top: 40px;
+    z-index: 2;
+}
+
+.x-toggle {
+    background-color: white;
+    border: none;
+    padding: 20px;
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+
+input {
+    margin-bottom: 10px;
+}

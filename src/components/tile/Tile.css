@@ -1,59 +1,15 @@
 .tile {
-    border-bottom: grey dotted 1px;
-    margin: 20px;
-    color: #333333;
-}
-
-.tile img {
-    width: 600px;
-    height: 150px;
-    object-fit: cover;
-}
-
-.tile p {
-    background-color: #d2d2d2;
-    font-size: 3rem;
-    padding: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-}
-
-.horizontal span {
-    font-size: 1rem;
-}
-
-.horizontal {
-    display: flex;
-    flex-direction: row;
-}
-
-.vertical {
     display: flex;
     flex-direction: column;
-    border-left: grey dotted 1px;
-    justify-content: center;
-    padding: 10px;
+    margin: 20px;
 }
 
-.tile h4 {
-    border-bottom: grey dotted 1px;
-    padding-bottom: 10px;
+.tile-img {
+    height: 300px;
+    width: 300px;
+    border-radius: 20px;
 }
 
-.tile h5 {
-    padding-top: 10px;
-    margin-right: 70px;
-}
-
-.horizontal-spacing {
-    display: flex;
-    justify-content: space-between;
-}
-
-.tile-button {
-    background-color: #d2d2d2;
-    border: none;
-    padding: 10px 50px;
-    margin-left: 50px;
-    margin-top: 10px;
+h3 {
+    padding: 5px 0;
 }
