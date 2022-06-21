@@ -1,16 +1,20 @@
 import React from "react";
 import './Tile.css';
 
-function Tile({image, price, nameOfStay, city, province}) {
+
+function Tile({image, city, province, price, naam}) {
+
     return(
+        <>
         <article className="tile">
-            <img className="tile-img" src={image} alt={nameOfStay}/>
-            <div className="info">
-                <h3>{nameOfStay}</h3>
-                <h3>{city}{province}</h3>
-                <h3>€ {price} / nacht</h3>
-            </div>
+                <div>{image}</div>
+                <div className="info">
+                    <h3>{naam}</h3>
+                    <h3>{city}, {province}</h3>
+                    <h3>€ {price} / nacht</h3>
+                </div>
         </article>
+        </>
     )
 
 }

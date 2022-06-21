@@ -4,19 +4,17 @@ import {
     NavLink,
     useHistory
 } from 'react-router-dom';
-import Button
-    from "../button/Button";
 
 function TopMenu() {
-
     const history = useHistory();
 
     function handleClick() {
-        history.push("/login-pagina")
+        history.push("/login-pagina");
     }
 
+
     return (
-            <nav className="nav-container">
+            <nav className="flex-horizontal">
                 <ul>
                     <li>
                         <NavLink to="/" exact activeClassName="active-link">Home</NavLink>
@@ -31,9 +29,11 @@ function TopMenu() {
                     </li>
                 </ul>
                 <div className="vl"></div>
-                <Button
-                    title="Inloggen"
-                />
+                <button
+                    className={'button'}
+                    type="button"
+                    onClick={handleClick}
+                >Inloggen</button>
             </nav>
     );
 }
