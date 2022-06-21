@@ -22,6 +22,11 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
+    justify-content: center;
+}
+
+.input-field {
+    padding: 10px;
 }
 
 

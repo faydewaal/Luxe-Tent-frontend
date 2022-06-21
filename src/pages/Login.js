@@ -1,12 +1,20 @@
 import React from 'react';
 import './Login.css'
 import nature from '../assets/nature.png'
-import Button
-    from "../components/button/Button";
+import {
+    useHistory
+} from "react-router-dom";
+
 
 
 
 function Login () {
+    const history = useHistory();
+
+    function handleClick() {
+        history.push("/profiel");
+    }
+
     return (
         <section className="login">
             <div className="left-div">
@@ -22,7 +30,13 @@ function Login () {
                         id="Wachtwoord"
                     />
                     <a href="#"><h6>regristreren</h6></a>
-                    <Button title="inloggen" />
+                    <button
+                        className={'button'}
+                        type="submit"
+                        onClick={handleClick}
+                    >
+                        inloggen
+                    </button>
                 </div>
             </div>
             <div className="right-div">

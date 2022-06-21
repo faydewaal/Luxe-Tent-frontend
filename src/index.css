@@ -11,3 +11,17 @@ a {
   text-decoration: none;
   color: #333333;
 }
+
+.flex-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  background-color: #d2d2d2;
+  border: none;
+  padding: 10px 50px;
+  margin: 0 50px;
+}

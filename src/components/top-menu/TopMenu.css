@@ -1,9 +1,8 @@
-.nav-container {
+.flex-horizontal {
     display: flex;
     flex-direction: row;
     justify-content: center;
     padding: 20px;
-
 }
 
 ul {
