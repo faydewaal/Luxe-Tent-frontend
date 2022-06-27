@@ -9,6 +9,9 @@ import tent
     from "../assets/tent.jpg";
 import axios
     from "axios";
+import {
+    useEffect
+} from "react";
 
 
 function UserProfile() {
@@ -20,23 +23,70 @@ function UserProfile() {
     const [addSucces, toggleAddSucces] = useState(false);
     const [file, setFile] = useState([]);
     const [previewUrl, setPreviewUrl] = useState('');
+    const [appUser, setAppUser] = useState([]);
+    const [streetName, setStreetName] = useState('');
+    const [houseNumber, setHouseNumber] = useState('');
+    const [city, setCity] = useState('');
+    const [province, setProvince] = useState('');
+
+    useEffect(() => {
+        async function FetchAppUsers() {
+            try {
+                const result = await axios.get('http://localhost:8080/app-users');
+                console.log(result.data);
+                setAppUser(result.data);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        FetchAppUsers();
+
+    },[]);
+
 
     async function addTent(e) {
         e.preventDefault();
 
+        let myTentId = '';
         try {
             const response = await axios.post('http://localhost:8080/tents', {
                 name: tentName,
                 description: tentDescription,
                 pricePerNight: tentPricePerNight,
-                MaxNumberOfPersons: tentMaxNumberOfPersons
+                maxNumberOfPersons: tentMaxNumberOfPersons,
+                street: streetName,
+                houseNumber: houseNumber,
+                city: city,
+                province: province
             });
 
-            console.log(response.data);
+            myTentId = response.data.tentId;
+            console.log("addTent: " + myTentId);
+
             toggleAddSucces(true);
         } catch (e) {
             console.error(e);
         }
+
+        //image
+        const formData = new FormData();
+        formData.append("file", file);
+        console.log("formdata: " + formData);
+
+        try {
+            const url = "http://localhost:8080/tents/" + myTentId + "/photo" ;
+            const result = await axios.post(url, formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    },
+                })
+            console.log("foto" + result.data);
+        } catch (e) {
+            console.error(e);
+        }
+
     }
 
     function handleImageChange(e) {
@@ -46,33 +96,17 @@ function UserProfile() {
         setPreviewUrl(URL.createObjectURL(uploadedFile))
     }
 
-    async function sendImage(e) {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append("file", file);
-
-        console.log(formData);
-
-        try {
-            const result = await axios.post('https://localhost:8080/tents/1003/photo', formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    },
-                })
-            console.log(result.data);
-        } catch (e) {
-            console.error(e)
-        }
-    }
 
     return (
         <section className="center-page">
-            <PageBanner
-                bannerImage={tent}
-                bannerTitle="Welkom op uw profiel"
-                bannerMessage="naam persoon"
-            />
+            {appUser.map((banaan) => {
+                return <PageBanner
+                    bannerImage={tent}
+                    bannerTitle="Welkom op uw profiel"
+                    bannerMessage={banaan.name}
+                />
+            })}
+
             <div className="center">
                 <button onClick={() => setToggle(!toggle)} className="add-tent">Voeg een tent toe</button>
             </div>
@@ -84,7 +118,7 @@ function UserProfile() {
                 {addSucces === true && <h3>Een nieuwe tent is toegevoegd!</h3>}
 
                 {toggle && (
-                    <form onSubmit={addTent || sendImage} className="tent-form" id="tent-upload" action="/">
+                    <form onSubmit={addTent} className="tent-form" id="tent-upload" action="/">
                         <button className="x-toggle" onClick={() => setToggle(!toggle)}>X</button>
 
                         <label htmlFor="tent-name">Naam van accomodatie:</label>
@@ -95,6 +129,54 @@ function UserProfile() {
                             id="tent-name"
                             value={tentName}
                         />
+
+                        <label htmlFor="street-name">Straatnaam</label>
+                        <input
+                            onChange={(e) => setStreetName(e.target.value)}
+                            type="text"
+                            name="street-name"
+                            id="street-name"
+                            value={streetName}
+                        />
+
+                        <label htmlFor="house-number">Huisnummer</label>
+                        <input
+                            onChange={(e) => setHouseNumber(e.target.value)}
+                            type="text"
+                            name="house-numbere"
+                            id="house-number"
+                            value={houseNumber}
+                        />
+
+                        <label htmlFor="city">Woonplaats</label>
+                        <input
+                            onChange={(e) => setCity(e.target.value)}
+                            type="text"
+                            name="city"
+                            id="city"
+                            value={city}
+                        />
+
+                        <label htmlFor="province">Provincie:</label>
+                        <select
+                            onChange={(e) => setProvince(e.target.value)}
+                            name="province"
+                            id="province"
+                            value={province}
+                        >
+                            <option value="drenthe">Drenthe</option>
+                            <option value="flevoland">Flevoland</option>
+                            <option value="friesland">Friesland</option>
+                            <option value="gelderland">Gelderland</option>
+                            <option value="groningen">Groningen</option>
+                            <option value="limburg">Limburg</option>
+                            <option value="noord-brabant">Noord-Brabant</option>
+                            <option value="noord-holland">Noord-Holland</option>
+                            <option value="overijssel">Overijssel</option>
+                            <option value="utrecht">Utrecht</option>
+                            <option value="zeeland">Zeeland</option>
+                            <option value="zuid-holland">Zuid-Holland</option>
+                        </select>
 
                         <label htmlFor="message">Vertel wat over de accomodatie:</label>
                         <input
@@ -109,28 +191,8 @@ function UserProfile() {
                             Voeg een foto toe
                         <input type="file" name="tent-image" id="tent-image" onChange={handleImageChange}/>
                             <label/>
-                            Preview:
-                            <img src={previewUrl} alt="Voorbeeld van afbeelding die u zojuist heeft gekozen" className="image-preview"/>
+                            <img src={previewUrl} alt="" className="image-preview"/>
                         </label>
-
-                        {/*<label htmlFor="city">Plaatsnaam:</label>*/}
-                        {/*<input type="text" name="city" id="city"/>*/}
-
-                        {/*<label htmlFor="province">Provincie:</label>*/}
-                        {/*<select name="province" id="province">*/}
-                        {/*    <option value="drenthe">Drenthe</option>*/}
-                        {/*    <option value="flevoland">Flevoland</option>*/}
-                        {/*    <option value="friesland">Friesland</option>*/}
-                        {/*    <option value="gelderland">Gelderland</option>*/}
-                        {/*    <option value="groningen">Groningen</option>*/}
-                        {/*    <option value="limburg">Limburg</option>*/}
-                        {/*    <option value="noord-brabant">Noord-Brabant</option>*/}
-                        {/*    <option value="noord-holland">Noord-Holland</option>*/}
-                        {/*    <option value="overijssel">Overijssel</option>*/}
-                        {/*    <option value="utrecht">Utrecht</option>*/}
-                        {/*    <option value="zeeland">Zeeland</option>*/}
-                        {/*    <option value="zuid-holland">Zuid-Holland</option>*/}
-                        {/*</select>*/}
 
                         <label htmlFor="people-amount">Hoeveel personen kunnen hier verblijven?</label>
                         <input

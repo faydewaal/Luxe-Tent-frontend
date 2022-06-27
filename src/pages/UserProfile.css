@@ -29,6 +29,7 @@
     height: 80%;
     top: 40px;
     z-index: 2;
+    overflow-y: scroll;
 }
 
 .x-toggle {
@@ -45,4 +46,5 @@ input {
 
 .image-preview {
     width: 400px;
+    height: auto;
 }

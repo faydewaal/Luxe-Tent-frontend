@@ -8,13 +8,14 @@ import PageBanner
 import tentPanorama from '../assets/tent-panorama.jpg';
 import Tile
     from "../components/tile/Tile";
-import './LuxeTenten.css'
+import './LuxeTenten.css';
 import axios
     from "axios";
 
 
 function LuxeTenten() {
     const [tent, setTent] = useState([]);
+
 
     useEffect(() => {
         async function FetchTenten() {
@@ -49,6 +50,8 @@ function LuxeTenten() {
                     naam={tentItem.name}
                     image={tentItem.file && <img src={tentItem.file.url} alt={tentItem.name}/>}
                     price={tentItem.pricePerNight}
+                    city={tentItem.city}
+                    province={tentItem.province}
                     />
                 })}
             </section>

@@ -29,15 +29,6 @@
     padding: 10px;
 }
 
-
-/* Overzicht van tenten*/
-.overview {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 30px;
-}
-
 .tents {
     display: flex;
     flex-direction: row;
@@ -46,3 +37,6 @@
     margin-top: 40px;
 }
 
+.extra-margin {
+margin-top: 150px;
+}

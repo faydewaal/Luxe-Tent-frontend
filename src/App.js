@@ -1,17 +1,26 @@
 import React, {
-    useState
+    useContext
 } from "react";
 import './App.css';
-import Login from "./pages/Login";
+import LogIn from "./pages/LogIn";
+import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import LuxeTenten from "./pages/LuxeTenten";
 import UserProfile from "./pages/UserProfile"
-import { Switch, Route,} from "react-router-dom";
+import {
+    Switch,
+    Route,
+    Redirect,
+} from "react-router-dom";
 import TopMenu from "./components/top-menu/TopMenu";
 import SingleTent from "./pages/SingleTent";
 import { SliderData } from "./pages/SliderData";
+import {
+    AuthContext
+} from "./context/AuthContext";
 
 function App() {
+    const { isAuth } = useContext(AuthContext);
 
     return (
       <>
@@ -25,13 +34,16 @@ function App() {
                 <LuxeTenten />
             </Route>
             <Route path="/login-pagina">
-                <Login />
+                <LogIn />
             </Route>
             <Route exact path="/profiel">
-                <UserProfile />
+                {isAuth ? <UserProfile /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/accomodatie">
                 <SingleTent slides={SliderData} />
+            </Route>
+            <Route path="/regristreren">
+                <SignUp />
             </Route>
         </Switch>
       </>

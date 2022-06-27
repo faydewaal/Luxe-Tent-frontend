@@ -1,14 +1,26 @@
-import React from 'react';
-import './Login.css'
+import React, {
+    useContext
+} from 'react';
+import './LogIn.css'
 import nature from '../assets/nature.png'
 import {
+    Link,
     useHistory
 } from "react-router-dom";
+import {
+    AuthContext
+} from "../context/AuthContext";
 
 
 
+function LogIn () {
+    const { login } = useContext(AuthContext);
 
-function Login () {
+    function handleSubmit(e) {
+        e.preventDefault();
+        login();
+    }
+
     const history = useHistory();
 
     function handleClick() {
@@ -18,7 +30,7 @@ function Login () {
     return (
         <section className="login">
             <div className="left-div">
-                <div className="login-form">
+                <form className="login-form">
                     <label htmlFor="text">E-mail</label>
                     <input
                         type="text"
@@ -29,15 +41,15 @@ function Login () {
                         type="text"
                         id="Wachtwoord"
                     />
-                    <a href="#"><h6>regristreren</h6></a>
                     <button
                         className={'button'}
                         type="submit"
-                        onClick={handleClick}
+                        onClick={handleSubmit || handleClick}
                     >
                         inloggen
                     </button>
-                </div>
+                    <Link to="regristreren"><h5>Regristreren</h5></Link>
+                </form>
             </div>
             <div className="right-div">
                 <img className="nature" src={nature} alt=""/>
@@ -46,4 +58,4 @@ function Login () {
     )
 }
 
-export default Login;
+export default LogIn;
