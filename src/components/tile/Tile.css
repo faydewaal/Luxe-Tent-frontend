@@ -5,9 +5,17 @@
 }
 
 .tile-img {
-    height: 300px;
-    width: 300px;
-    border-radius: 20px;
+    height: 280px;
+    width: 280px;
+    margin-bottom: 8px;
+}
+
+.tile-img img {
+    border-radius: 8px;
+}
+
+.smaller-text {
+    font-size: 0.8rem;
 }
 
 h3 {

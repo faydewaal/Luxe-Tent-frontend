@@ -1,15 +1,35 @@
 import React
-    from "react";
-import './Home.css'
+    , {
+    useEffect,
+    useState
+} from "react";
+import './Home.css';
 import Tile
     from "../components/tile/Tile";
-import article2
-    from "../assets/article2.jpg";
-import tent from "../assets/tent.jpg";
 import PageBanner
     from "../components/page-banner/PageBanner";
+import axios
+    from "axios";
+import tent from '../assets/tent.jpg';
+
 
 function Home() {
+    const [filteredTent, setFilteredTent] = useState([]);
+
+    useEffect(() => {
+        async function getFilteredTenten() {
+            try {
+                const result = await axios.get("http://localhost:8080/tents");
+                console.log("data: " + result.data);
+                setFilteredTent(result.data);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        getFilteredTenten();
+
+    },[]);
 
     return (
         <>
@@ -79,30 +99,21 @@ function Home() {
                             </button>
                         </div>
                     </form>
+            </section>
 
-
-
-
-                <section className="overview">
-                    <h2>Ontdek alle bijzondere en luxe tent overnachtingen</h2>
-
-                    <div className="tents">
-                        <Tile
-                            image={article2}
-                            price="99"
-                            nameOfStay="Luxe Tipi"
-                            city="Loosdrecht"
-                            province="Noord-Brabant"
-                        />
-                        <Tile
-                            image={article2}
-                            price="99"
-                            nameOfStay="Luxe Tent"
-                            city="Loosdrecht"
-                            province="Noord-Brabant"
-                        />
-                    </div>
-                </section>
+            <section className="tents extra-margin">
+                {filteredTent.map((tent, index) => {
+                    return <Tile
+                        name={index}
+                        key={index}
+                        url={index}
+                        naam={tent.name}
+                        image={tent.file && <img src={tent.file.url} alt={tent.name}/>}
+                        price={tent.pricePerNight}
+                        city={tent.city}
+                        province={tent.province}
+                    />
+                })}
             </section>
         </>
     );
