@@ -5,6 +5,14 @@
 
 .overview {
     margin-top:100px;
+    display: flex;
+    justify-content: center;
+}
+
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .add-tent {

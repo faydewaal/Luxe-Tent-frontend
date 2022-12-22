@@ -2,11 +2,11 @@ import React, {
     useContext
 } from "react";
 import './App.css';
-import LogIn from "./pages/LogIn";
-import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Home from "./pages/Home";
 import LuxeTenten from "./pages/LuxeTenten";
-import UserProfile from "./pages/UserProfile"
+import Profile from "./pages/Profile"
 import {
     Switch,
     Route,
@@ -14,7 +14,6 @@ import {
 } from "react-router-dom";
 import TopMenu from "./components/top-menu/TopMenu";
 import SingleTent from "./pages/SingleTent";
-import { SliderData } from "./pages/SliderData";
 import {
     AuthContext
 } from "./context/AuthContext";
@@ -33,17 +32,17 @@ function App() {
             <Route path="/luxe-tenten">
                 <LuxeTenten />
             </Route>
-            <Route path="/login-pagina">
-                <LogIn />
+            <Route path="/login">
+                <Login />
             </Route>
             <Route exact path="/profiel">
-                {isAuth ? <UserProfile /> : <Redirect to="/" />}
+                {isAuth ? <Profile /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/accomodatie">
-                <SingleTent slides={SliderData} />
+                <SingleTent/>
             </Route>
-            <Route path="/regristreren">
-                <SignUp />
+            <Route path="/registreren">
+                <Register />
             </Route>
         </Switch>
       </>
