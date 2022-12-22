@@ -24,3 +24,7 @@ li {
 .active-link {
     border-bottom: 2px solid rgb(166,199,233);
 }
+
+.pointer {
+    cursor: pointer;
+}

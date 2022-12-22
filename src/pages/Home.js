@@ -11,15 +11,22 @@ import PageBanner
 import axios
     from "axios";
 import tent from '../assets/tent.jpg';
+import {
+    useHistory
+} from "react-router-dom";
 
 
 function Home() {
     const [filteredTent, setFilteredTent] = useState([]);
+    const [tentId, setTentId] = useState([]);
+    const history = useHistory();
+    const [search, setSearch] = useState('')
+    console.log(search)
 
     useEffect(() => {
         async function getFilteredTenten() {
             try {
-                const result = await axios.get("http://localhost:8080/tents");
+                const result = await axios.get("http://localhost:8080/tents/all");
                 console.log("data: " + result.data);
                 setFilteredTent(result.data);
             } catch (e) {
@@ -27,24 +34,30 @@ function Home() {
             }
         }
 
+
         getFilteredTenten();
 
     },[]);
 
+    function getTent(tentId) {
+        console.log("komt ie hier?")
+        history.push('/accomodatie?deTentId='+tentId);
+    }
+
     return (
         <>
             <PageBanner
-            bannerImage={tent}
-            bannerTitle="Welkom"
-            bannerMessage="Ontdek alle unieke en luxe tenten"
+                bannerImage={tent}
+                bannerTitle="Welkom!"
+                bannerMessage="Ontdek alle unieke en luxe tenten"
             />
 
             <section className="homepage-content">
-                    <form action="form" className="searchbar">
+                    <form action="form" className="searchbar" onChange={(e) => setSearch(e.target.value)}>
                         <div className="searchbar-item">
                             <label htmlFor="province">Waar wilt u heen?</label>
                             <select className="input-field" name="province" id="province">
-                                <option value="geen-voorkeur">Geen voorkeur</option>
+                                <option value="">Geen voorkeur</option>
                                 <option value="drenthe">Drenthe</option>
                                 <option value="flevoland">Flevoland</option>
                                 <option value="friesland">Friesland</option>
@@ -59,29 +72,7 @@ function Home() {
                                 <option value="zuid-holland">Zuid-Holland</option>
                             </select>
                         </div>
-                        <div className="searchbar-item">
-                            <label htmlFor="date">Aankomst & Vertrek</label>
-                            <div className="flex-horizontal">
-                                <input
-                                    className="input-field"
-                                    type="date"
-                                    id="start"
-                                    name="trip-start"
-                                    placeholder="2022-05-26"
-                                    min="2022-05-26"
-                                    max="2023-05-26"
-                                />
-                                <input
-                                    className="input-field"
-                                    type="date"
-                                    id="end"
-                                    name="trip-end"
-                                    placeholder="2022-05-26"
-                                    min="2022-06-26"
-                                    max="2023-06-26"
-                                />
-                            </div>
-                        </div>
+
                         <div className="searchbar-item">
                             <label htmlFor="people-amount">Personen</label>
                             <input
@@ -101,18 +92,23 @@ function Home() {
                     </form>
             </section>
 
+
             <section className="tents extra-margin">
-                {filteredTent.map((tent, index) => {
-                    return <Tile
-                        name={index}
-                        key={index}
-                        url={index}
-                        naam={tent.name}
-                        image={tent.file && <img src={tent.file.url} alt={tent.name}/>}
-                        price={tent.pricePerNight}
-                        city={tent.city}
-                        province={tent.province}
-                    />
+                {filteredTent.filter((item)=> {
+                    return search.toLowerCase() === '' ? item : item.province.toLowerCase().includes(search)
+                }).map((tent, index) => {
+                    return <div onClick={()=>getTent(tent.id)}>
+                        <Tile
+                            name={index}
+                            key={index}
+                            url={index}
+                            title={tent.title}
+                            image={tent.file && <img src={tent.file.url} alt={tent.file.fileName}/>}
+                            price={tent.pricePerNight}
+                            city={tent.city}
+                            province={tent.province}
+                        />
+                    </div>
                 })}
             </section>
         </>

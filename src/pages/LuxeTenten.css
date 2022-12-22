@@ -1,0 +1,10 @@
+.inform {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inform p {
+    width: 70%;
+    margin: 50px;
+}

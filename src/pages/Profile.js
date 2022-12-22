@@ -1,49 +1,65 @@
-import React
-    , {
+import React, {
+    useContext,
+    useEffect,
     useState
-} from "react";
-import './UserProfile.css'
-import PageBanner
-    from "../components/page-banner/PageBanner";
-import tent
-    from "../assets/tent.jpg";
-import axios
-    from "axios";
+} from 'react';
+import './Profile.css'
+import PageBanner from "../components/page-banner/PageBanner";
+import tent from "../assets/tent.jpg";
+import axios from "axios";
 import {
-    useEffect
-} from "react";
+    AuthContext
+} from "../context/AuthContext";
+import Tile
+    from "../components/tile/Tile";
 
 
-function UserProfile() {
+function Profile() {
+    const {user: {username}} = useContext(AuthContext);
+    const token = localStorage.getItem('token');
+    const [profileData, setProfileData] = useState([]);
+
     const [toggle, setToggle] = useState(false)
-    const [tentName, setTentName] = useState('');
+    const [title, setTitle] = useState('');
     const [tentDescription, setTentDescription] = useState('');
     const [tentPricePerNight, setTentPricePerNight] = useState('');
     const [tentMaxNumberOfPersons, setTentMaxNumberOfPersons] = useState('');
     const [addSucces, toggleAddSucces] = useState(false);
     const [file, setFile] = useState([]);
     const [previewUrl, setPreviewUrl] = useState('');
-    const [appUser, setAppUser] = useState([]);
     const [streetName, setStreetName] = useState('');
     const [houseNumber, setHouseNumber] = useState('');
     const [city, setCity] = useState('');
     const [province, setProvince] = useState('');
 
+    const form = document.getElementById('tent-upload');
+
     useEffect(() => {
-        async function FetchAppUsers() {
+        async function fetchProfileData() {
+
             try {
-                const result = await axios.get('http://localhost:8080/app-users');
-                console.log(result.data);
-                setAppUser(result.data);
+                const result = await axios.get(`http://localhost:8080/users/${username}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setProfileData(result.data);
+                console.log("userrr" + result.data.tent);
             } catch (e) {
                 console.error(e);
             }
         }
 
-        FetchAppUsers();
+        fetchProfileData();
+    }, [token])
 
-    },[]);
-
+    function handleImageChange(e) {
+        const uploadedFile = e.target.files[0];
+        console.log(uploadedFile);
+        setFile(uploadedFile);
+        setPreviewUrl(URL.createObjectURL(uploadedFile))
+    }
 
     async function addTent(e) {
         e.preventDefault();
@@ -51,7 +67,7 @@ function UserProfile() {
         let myTentId = '';
         try {
             const response = await axios.post('http://localhost:8080/tents', {
-                name: tentName,
+                title: title,
                 description: tentDescription,
                 pricePerNight: tentPricePerNight,
                 maxNumberOfPersons: tentMaxNumberOfPersons,
@@ -61,51 +77,49 @@ function UserProfile() {
                 province: province
             });
 
-            myTentId = response.data.tentId;
-            console.log("addTent: " + myTentId);
-
+            myTentId = response.data.id;
+            console.log("addTent: " + response.data);
             toggleAddSucces(true);
         } catch (e) {
             console.error(e);
         }
 
         //image
-        const formData = new FormData();
+        const formData = new FormData(form);
         formData.append("file", file);
-        console.log("formdata: " + formData);
+        console.log([...formData])
 
         try {
-            const url = "http://localhost:8080/tents/" + myTentId + "/photo" ;
-            const result = await axios.post(url, formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    },
-                })
-            console.log("foto" + result.data);
+            const url = "http://localhost:8080/tents/" + myTentId + "/photo";
+            await axios.post(url, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }).then(() => {
+                console.log("doet ie t?")
+            });
         } catch (e) {
             console.error(e);
         }
 
-    }
+        try {
+            const endpoint = `http://localhost:8080/users/${username}/${myTentId}`;
+            await axios.put(endpoint)
 
-    function handleImageChange(e) {
-        const uploadedFile = e.target.files[0];
-        console.log(uploadedFile);
-        setFile(uploadedFile);
-        setPreviewUrl(URL.createObjectURL(uploadedFile))
+            setToggle(!toggle);
+            console.log("ja, hij doet het!")
+        } catch(e) {
+            console.error(e);
+        }
     }
-
 
     return (
         <section className="center-page">
-            {appUser.map((banaan) => {
-                return <PageBanner
+            <PageBanner
                     bannerImage={tent}
-                    bannerTitle="Welkom op uw profiel"
-                    bannerMessage={banaan.name}
+                    bannerTitle="Welkom! &nbsp;"
+                    bannerNameOfUser={profileData.username}
                 />
-            })}
 
             <div className="center">
                 <button onClick={() => setToggle(!toggle)} className="add-tent">Voeg een tent toe</button>
@@ -113,21 +127,37 @@ function UserProfile() {
 
 
             <div className="overview">
-                <h2>hieronder een overzicht van al uw tenten</h2>
+                <div className="user-profile">
+                    <h2>hieronder een overzicht van al uw geplaatste tenten</h2>
+                    {addSucces === true && <h3>Een nieuwe tent is toegevoegd!</h3>}
+                    <section className="tents">
+                            {profileData.tent && profileData.tent.map((banaan, index)=> {
+                                return <Tile
+                                    name={index}
+                                    key={index}
+                                    url={index}
+                                    title={banaan.title}
+                                    image={banaan.file && <img src={banaan.file.url} alt={banaan.file.fileName}/>}
+                                    price={banaan.pricePerNight}
+                                    city={banaan.city}
+                                    province={banaan.province}
+                                />
+                            })}
+                    </section>
 
-                {addSucces === true && <h3>Een nieuwe tent is toegevoegd!</h3>}
+                </div>
 
                 {toggle && (
-                    <form onSubmit={addTent} className="tent-form" id="tent-upload" action="/">
+                    <form onSubmit={addTent} className="tent-form" id="tent-upload" >
                         <button className="x-toggle" onClick={() => setToggle(!toggle)}>X</button>
 
                         <label htmlFor="tent-name">Naam van accomodatie:</label>
                         <input
-                            onChange={(e) => setTentName(e.target.value)}
+                            onChange={(e) => setTitle(e.target.value)}
                             type="text"
                             name="tent-name"
                             id="tent-name"
-                            value={tentName}
+                            value={title}
                         />
 
                         <label htmlFor="street-name">Straatnaam</label>
@@ -187,10 +217,9 @@ function UserProfile() {
                             onChange={(e) => setTentDescription(e.target.value)}
                         />
 
-                        <label htmlFor="tent-image">
+                        <label htmlFor="photo">
                             Voeg een foto toe
-                        <input type="file" name="tent-image" id="tent-image" onChange={handleImageChange}/>
-                            <label/>
+                        <input type="file" name="photo" id="tent-image" accept="image/*" onChange={handleImageChange}/>
                             <img src={previewUrl} alt="" className="image-preview"/>
                         </label>
 
@@ -225,7 +254,7 @@ function UserProfile() {
             </div>
 
         </section>
-    )
+    );
 }
 
-export default UserProfile;
+export default Profile;

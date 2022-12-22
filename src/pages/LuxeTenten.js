@@ -5,56 +5,25 @@ import React
 } from "react";
 import PageBanner
     from "../components/page-banner/PageBanner";
-import tentPanorama from '../assets/tent-panorama.jpg';
-import Tile
-    from "../components/tile/Tile";
+import natuur from '../assets/natuur.jpg';
 import './LuxeTenten.css';
-import axios
-    from "axios";
 
 
 function LuxeTenten() {
-    const [tent, setTent] = useState([]);
-
-
-    useEffect(() => {
-        async function FetchTenten() {
-            try {
-                const result = await axios.get("http://localhost:8080/tents");
-                console.log(result.data);
-                setTent(result.data);
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        FetchTenten();
-
-    },[]);
 
     return (
         <>
 
             <PageBanner
-            bannerImage={tentPanorama}
-            bannerTitle="Luxe Tenten"
-            bannerMessage="Vind een tent die bij u past"
+            bannerImage={natuur}
+            bannerTitle="Wandelroutes en unieke activiteiten"
+            bannerMessage="In elke provicie vind u iets moois"
             />
 
-            <section className="tents">
-                {tent.map((tentItem, index) => {
-                    return <Tile
-                    name={index}
-                    key={index}
-                    url={index}
-                    naam={tentItem.name}
-                    image={tentItem.file && <img src={tentItem.file.url} alt={tentItem.name}/>}
-                    price={tentItem.pricePerNight}
-                    city={tentItem.city}
-                    province={tentItem.province}
-                    />
-                })}
-            </section>
+            <div class="inform">
+                <p>Als ik de app verder uit zou breiden dan zou ik en functie toevoegen voor gebruikers die een tent plaatsen. Ze zouden dan de optie hebben een mooie wandelroute of unieke activiteit toe te voegen. Op deze pagina zou dan een verzameling ontstaan van alle wandelroutes en activiteiten. De huurder kan vervolgens op deze pagina naar verschillended activiteiten zoeken</p>
+            </div>
+
         </>
 
     )

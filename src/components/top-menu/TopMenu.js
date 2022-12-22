@@ -4,12 +4,19 @@ import {
     NavLink,
     useHistory
 } from 'react-router-dom';
+import {
+    useContext
+} from "react";
+import {
+    AuthContext
+} from "../../context/AuthContext";
 
 function TopMenu() {
     const history = useHistory();
+    const { logout } = useContext(AuthContext);
 
     function handleClick() {
-        history.push("/login-pagina");
+        history.push("/login");
     }
 
 
@@ -21,11 +28,11 @@ function TopMenu() {
                     </li>
 
                     <li>
-                        <NavLink to="/luxe-tenten" exact activeClassName="active-link">Luxe Tenten</NavLink>
+                        <NavLink to="/luxe-tenten" exact activeClassName="active-link">Wandelroutes & Unieke Activiteiten</NavLink>
                     </li>
 
                     <li>
-                        <NavLink to="/over" exact activeClassName="active-link">Over</NavLink>
+                        <NavLink to="/profiel" exact activeClassName="active-link">Profiel</NavLink>
                     </li>
                 </ul>
                 <div className="vl"></div>
@@ -34,6 +41,7 @@ function TopMenu() {
                     type="button"
                     onClick={handleClick}
                 >Inloggen</button>
+                <h6 className="pointer" onClick={logout}>Uitloggen</h6>
             </nav>
     );
 }
