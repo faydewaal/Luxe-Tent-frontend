@@ -21,7 +21,7 @@ function LuxeTenten() {
             />
 
             <div class="inform">
-                <p>Als ik de app verder uit zou breiden dan zou ik en functie toevoegen voor gebruikers die een tent plaatsen. Ze zouden dan de optie hebben een mooie wandelroute of unieke activiteit toe te voegen. Op deze pagina zou dan een verzameling ontstaan van alle wandelroutes en activiteiten. De huurder kan vervolgens op deze pagina naar verschillended activiteiten zoeken</p>
+                <p>Een uitbreiding van mijn concept die mij leuk lijkt om toe te passen in de toekomst is dat mensen die hun accommodatie beschikbaar stellen voor verhuur ook een leuke activiteit in de buurt kunnen toevoegen. Als de app groeit en meer en meer mensen hun accommodatie toevoegen en ook activiteiten in de buurt van hun accommodatie dan kunnen de bezoekers/huurder ook zoeken op leuke activiteiten en hier hun accommodatie op uitkiezen. Of natuurlijk andersom dat als ze een accommodatie geboekt hebben dat ze ook kunnen kijken wat voor leuks er in de buurt te doen is. Dit is dus leuk voor de huurder, maar ook een kans voor huurders om hun accommodatie extra aantrekkelijk te maken door te laten weten wat er allemaal in de buurt te doen is. </p>
             </div>
 
         </>
