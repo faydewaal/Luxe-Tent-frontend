@@ -14,6 +14,8 @@ import tent from '../assets/tent.jpg';
 import {
     useHistory
 } from "react-router-dom";
+import Button
+    from "../components/Button/Button";
 
 
 function Home() {
@@ -83,11 +85,9 @@ function Home() {
                         </div>
 
                         <div className="searchbar-item">
-                            <button
-                                className={'button'}
-                                type="submit"
-                            >Zoeken
-                            </button>
+                            <Button
+                                btn="zoeken"
+                            />
                         </div>
                     </form>
             </section>
