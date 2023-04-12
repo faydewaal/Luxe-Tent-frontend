@@ -35,7 +35,7 @@ function TopMenu() {
                         <NavLink to="/profiel" exact activeClassName="active-link">Profiel</NavLink>
                     </li>
                 </ul>
-                <div className="vl"></div>
+                <section className="vl"></section>
                 <button
                     className={'button'}
                     type="button"
