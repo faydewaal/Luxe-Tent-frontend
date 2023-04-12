@@ -3,10 +3,6 @@ import React
     useState
 } from "react";
 import './SingleTent.css'
-import PageBanner
-    from "../components/page-banner/PageBanner";
-import tent
-    from "../assets/tent.jpg";
 import {
     useEffect
 } from "react";
@@ -17,9 +13,9 @@ function SingleTent() {
 
     const [tentData, setTentData] = useState([]);
 
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var paramValue = url.searchParams.get("deTentId");
+    const url_string = window.location.href;
+    const url = new URL(url_string);
+    const paramValue = url.searchParams.get("deTentId");
     console.log(paramValue)
 
     useEffect(() => {

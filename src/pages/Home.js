@@ -14,16 +14,22 @@ import tent from '../assets/tent.jpg';
 import {
     useHistory
 } from "react-router-dom";
-import Button
-    from "../components/Button/Button";
+
 
 
 function Home() {
     const [filteredTent, setFilteredTent] = useState([]);
     const [tentId, setTentId] = useState([]);
     const history = useHistory();
-    const [search, setSearch] = useState('')
-    console.log(search)
+    const [search, setSearch] = useState({
+        provinceSearch: '',
+        peopleAmountSearch: ''
+    })
+    const handleSearchbar = e => {
+        setSearch({...search, 
+            provinceSearch: e.target.value, 
+            peopleAmountSearch: e.target.value})
+    }
 
     useEffect(() => {
         async function getFilteredTenten() {
@@ -42,7 +48,6 @@ function Home() {
     },[]);
 
     function getTent(tentId) {
-        console.log("komt ie hier?")
         history.push('/accomodatie?deTentId='+tentId);
     }
 
@@ -55,10 +60,13 @@ function Home() {
             />
 
             <section className="homepage-content">
-                    <form action="form" className="searchbar" onChange={(e) => setSearch(e.target.value)}>
-                        <div className="searchbar-item">
+                    <form action="form" className="searchbar" >
+                        <section className="searchbar-item">
                             <label htmlFor="province">Waar wilt u heen?</label>
-                            <select className="input-field" name="province" id="province">
+                            <select className="input-field" 
+                            name="province" 
+                            id="province" 
+                            onChange={(e) => handleSearchbar(e)}>
                                 <option value="">Geen voorkeur</option>
                                 <option value="drenthe">Drenthe</option>
                                 <option value="flevoland">Flevoland</option>
@@ -73,31 +81,40 @@ function Home() {
                                 <option value="zeeland">Zeeland</option>
                                 <option value="zuid-holland">Zuid-Holland</option>
                             </select>
-                        </div>
+                        </section>
 
-                        <div className="searchbar-item">
+                        <section className="searchbar-item">
                             <label htmlFor="people-amount">Personen</label>
-                            <input
+                            <select
                                 className="input-field"
-                                type="number"
-                                placeholder="1"
-                            />
-                        </div>
-
-                        <div className="searchbar-item">
-                            <Button
-                                btn="zoeken"
-                            />
-                        </div>
+                                onChange={(e) => handleSearchbar(e)}>
+                                    <option value="">geen voorkeur</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                            </select>
+                        </section>
                     </form>
             </section>
 
 
             <section className="tents extra-margin">
                 {filteredTent.filter((item)=> {
-                    return search.toLowerCase() === '' ? item : item.province.toLowerCase().includes(search)
+                    const { provinceSearch, peopleAmountSearch} = search;
+                    if (provinceSearch && peopleAmountSearch) {
+                        console.log("testje " + peopleAmountSearch)
+                        return item.province.toLowerCase().includes(provinceSearch.toLowerCase());
+                    }  
+                     return true; 
                 }).map((tent, index) => {
-                    return <div onClick={()=>getTent(tent.id)}>
+                    return <section onClick={()=>getTent(tent.id)}>
                         <Tile
                             name={index}
                             key={index}
@@ -107,8 +124,9 @@ function Home() {
                             price={tent.pricePerNight}
                             city={tent.city}
                             province={tent.province}
+                            maxPeople={tent.maxNumberOfPersons}
                         />
-                    </div>
+                    </section>
                 })}
             </section>
         </>

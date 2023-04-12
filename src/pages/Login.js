@@ -41,7 +41,7 @@ function Login () {
 
     return (
         <section className="login">
-            <div className="left-div">
+            <section className="left-div">
                 <form className="login-form" onSubmit={userLogin}>
                     <label htmlFor="username">Gebruikersnaam</label>
                     <input
@@ -66,12 +66,12 @@ function Login () {
                         inloggen
                     </button>
                     <Link to="registreren"><h5>Registreren</h5></Link>
-                    {error && <p className="error">Combinatie van emailadres en wachtwoord is onjuist</p>}
+                    {error && <p className="error">Combinatie van gebruikersnaam en wachtwoord is onjuist</p>}
                 </form>
-            </div>
-            <div className="right-div">
+            </section>
+            <aside className="right-div">
                 <img className="nature" src={nature} alt=""/>
-            </div>
+            </aside>
         </section>
     )
 }

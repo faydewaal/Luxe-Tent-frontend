@@ -9,9 +9,6 @@ import {
 } from "react-router-dom";
 import axios
     from "axios";
-import bcrypt from 'bcryptjs'
-
-const salt = bcrypt.genSaltSync(10)
 
 function Register () {
     const [username, setUsername] = useState('');
@@ -25,15 +22,11 @@ function Register () {
     const history = useHistory();
 
     async function register(e) {
-        const hashedPassword = bcrypt.hashSync(password, '$2a$10$CwTycUXWue0Thq9StjUM0u')
-        e.preventDefault()
-        toggleError(false);
-        toggleLoading(true);
-
+    
         try {
             await axios.post('http://localhost:8080/users', {
                 username: username,
-                password: hashedPassword,
+                password: password,
                 email: email,
                 enabled: enabled,
                 apikey: apikey
@@ -50,7 +43,7 @@ function Register () {
 
     return (
         <section className="login">
-            <div className="left-div">
+            <section className="left-div">
                 <form onSubmit={register} className="login-form">
                     <label htmlFor="usernaam">Gebruikersnaam</label>
                     <input
@@ -79,10 +72,10 @@ function Register () {
                     </button>
                     <Link to="login-pagina"><h5>Inloggen</h5></Link>
                 </form>
-            </div>
-            <div className="right-div">
+            </section>
+            <aside className="right-div">
                 <img className="nature" src={nature} alt=""/>
-            </div>
+            </aside>
         </section>
     )
 }

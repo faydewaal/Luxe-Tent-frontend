@@ -31,6 +31,7 @@ function Profile() {
     const [houseNumber, setHouseNumber] = useState('');
     const [city, setCity] = useState('');
     const [province, setProvince] = useState('');
+    const [tentOptions, setTentOptions] = useState('');
 
     const form = document.getElementById('tent-upload');
 
@@ -74,10 +75,12 @@ function Profile() {
                 street: streetName,
                 houseNumber: houseNumber,
                 city: city,
-                province: province
+                province: province,
+                tentOptions: tentOptions
             });
 
             myTentId = response.data.id;
+            // myOptionsId = response.data.tentOptions.id;
             console.log("addTent: " + response.data);
             toggleAddSucces(true);
         } catch (e) {
@@ -90,7 +93,7 @@ function Profile() {
         console.log([...formData])
 
         try {
-            const url = "http://localhost:8080/tents/" + myTentId + "/photo";
+            const url = "http://localhost:8080/tents/" + myTentId;
             await axios.post(url, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -111,6 +114,14 @@ function Profile() {
         } catch(e) {
             console.error(e);
         }
+
+        try {
+            const anotherUrl = `http://localhost:8080/tents/options/${myTentId}/2`;
+            await axios.put(anotherUrl)
+            console.log("hhee ho lets go")
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     return (
@@ -121,13 +132,13 @@ function Profile() {
                     bannerNameOfUser={profileData.username}
                 />
 
-            <div className="center">
+            <section className="center">
                 <button onClick={() => setToggle(!toggle)} className="add-tent">Voeg een tent toe</button>
-            </div>
+            </section>
 
 
-            <div className="overview">
-                <div className="user-profile">
+            <section className="overview">
+                <section className="user-profile">
                     <h2>hieronder een overzicht van al uw geplaatste tenten</h2>
                     {addSucces === true && <h3>Een nieuwe tent is toegevoegd!</h3>}
                     <section className="tents">
@@ -145,7 +156,7 @@ function Profile() {
                             })}
                     </section>
 
-                </div>
+                </section>
 
                 {toggle && (
                     <form onSubmit={addTent} className="tent-form" id="tent-upload" >
@@ -240,18 +251,34 @@ function Profile() {
                                onChange={(e) => setTentPricePerNight(e.target.value)}
                         />
 
-                        {/*<p>Welke extra opties bied u aan?</p>*/}
-                        {/*<input type="checkbox" name="option" id="fietsen" value="Fietsen"/>*/}
-                        {/*<label htmlFor="fietsen">Fietsen</label>*/}
-                        {/*<input type="checkbox" name="option" id="Jacuzie" value="jacuzie"/>*/}
-                        {/*<label htmlFor="jacuzie">jacuzie</label>*/}
-                        {/*<input type="checkbox" name="option" id="Barbeque" value="jacuzie"/>*/}
-                        {/*<label htmlFor="barbeque">Barbeque</label>*/}
+                    <p>Welke extra opties bied u aan?</p>
+                        <label htmlFor="FietsVerhuur">Fiets verhuur</label>
+                        <input type="checkbox" 
+                               name="option" 
+                               id="FietsVerhuur" 
+                               value={tentOptions}
+                               onChange={(e) => setTentOptions(e.target.value)}
+                        />
+                        <label htmlFor="Jacuzzi">Jacuzzi</label>
+                        <input type="checkbox" 
+                               name="option" 
+                               id="Jacuzzi" 
+                               value={tentOptions}
+                               onChange={(e) => setTentOptions(e.target.value)}
+                        />
+
+                        <label htmlFor="BBQ Grill">BBQ Grill</label>
+                        <input type="checkbox" 
+                               name="option" 
+                               id="BBQ Grill" 
+                               value={tentOptions}
+                               onChange={(e) => setTentOptions(e.target.value)}
+                        />
 
                         <button type="submit">Verstuur</button>
                     </form>
                 )}
-            </div>
+            </section>
 
         </section>
     );
