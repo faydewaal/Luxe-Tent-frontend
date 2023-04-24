@@ -1,0 +1,11 @@
+.footer {
+  display: flex;
+  height: 75px;
+  align-items: center;
+  justify-content: center;
+  background-color: #f2f1f1;
+}
+
+.copy{
+  font-size: 0.9em;
+}

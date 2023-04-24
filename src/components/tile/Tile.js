@@ -1,5 +1,7 @@
 import React from "react";
 import './Tile.css';
+import ButtonGreen
+    from "../Button/ButtonGreen";
 
 
 function Tile({image, city, province, price, title, maxPeople}) {
@@ -13,7 +15,9 @@ function Tile({image, city, province, price, title, maxPeople}) {
                     <h3>{city}, {province}</h3>
                         <section className="naast">
                             <h3>€ {price}<span className="smaller-text"> / nacht</span></h3>
-                            <section className="green-button">Bekijk</section>
+                            <ButtonGreen
+                            btnName="Bekijk"
+                            />
                         </section>
                 </section>
         </article>

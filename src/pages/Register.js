@@ -3,6 +3,8 @@ import React, {
 } from 'react';
 import './Login.css'
 import nature from '../assets/nature.png'
+import ButtonGrey
+    from "../components/ButtonGrey/ButtonGrey";
 import {
     Link,
     useHistory
@@ -64,12 +66,9 @@ function Register () {
                         id="Wachtwoord"
                     />
                     {error && <p className="error">Dit account bestaat al. Probeer een ander emailadres.</p>}
-                    <button
-                        className={'button'}
-                        type="submit"
-                    >
-                        registreren
-                    </button>
+                    <ButtonGrey
+                        btnName="registreren"
+                    />
                     <Link to="login-pagina"><h5>Inloggen</h5></Link>
                 </form>
             </section>

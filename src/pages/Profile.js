@@ -80,7 +80,6 @@ function Profile() {
             });
 
             myTentId = response.data.id;
-            // myOptionsId = response.data.tentOptions.id;
             console.log("addTent: " + response.data);
             toggleAddSucces(true);
         } catch (e) {
@@ -93,13 +92,13 @@ function Profile() {
         console.log([...formData])
 
         try {
-            const url = "http://localhost:8080/tents/" + myTentId;
+            const url = "http://localhost:8080/tents/photo/" + myTentId;
             await axios.post(url, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             }).then(() => {
-                console.log("doet ie t?")
+                console.log("komtie hier????")
             });
         } catch (e) {
             console.error(e);
@@ -110,7 +109,6 @@ function Profile() {
             await axios.put(endpoint)
 
             setToggle(!toggle);
-            console.log("ja, hij doet het!")
         } catch(e) {
             console.error(e);
         }
@@ -118,7 +116,6 @@ function Profile() {
         try {
             const anotherUrl = `http://localhost:8080/tents/options/${myTentId}/2`;
             await axios.put(anotherUrl)
-            console.log("hhee ho lets go")
         } catch(e) {
             console.log(e);
         }
