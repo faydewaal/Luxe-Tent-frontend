@@ -13,6 +13,7 @@ import {
     Redirect,
 } from "react-router-dom";
 import TopMenu from "./components/top-menu/TopMenu";
+import Footer from "./components/Footer/Footer";
 import SingleTent from "./pages/SingleTent";
 import {
     AuthContext
@@ -45,6 +46,8 @@ function App() {
                 <Register />
             </Route>
         </Switch>
+
+        <Footer/>
       </>
   );
 }

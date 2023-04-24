@@ -28,10 +28,3 @@ h3 {
     align-items: baseline;
     justify-content: space-between;
 }
-
-.green-button {
-    border: none;
-    background-color: #b0d980;
-    color: white;
-    padding: 5px 40px;
-}

@@ -4,6 +4,8 @@ import React, {
 } from 'react';
 import './Login.css'
 import nature from '../assets/nature.png'
+import ButtonGrey
+    from "../components/ButtonGrey/ButtonGrey";
 import {
     Link
 } from "react-router-dom";
@@ -59,12 +61,9 @@ function Login () {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <button
-                        className={'button'}
-                        type="submit"
-                    >
-                        inloggen
-                    </button>
+                    <ButtonGrey
+                        btnName="inloggen"
+                    />
                     <Link to="registreren"><h5>Registreren</h5></Link>
                     {error && <p className="error">Combinatie van gebruikersnaam en wachtwoord is onjuist</p>}
                 </form>

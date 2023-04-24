@@ -8,6 +8,8 @@ import Tile
     from "../components/tile/Tile";
 import PageBanner
     from "../components/page-banner/PageBanner";
+import Footer
+    from "../components/Footer/Footer";
 import axios
     from "axios";
 import tent from '../assets/tent.jpg';
@@ -18,9 +20,11 @@ import {
 
 
 function Home() {
+    const history = useHistory();
     const [filteredTent, setFilteredTent] = useState([]);
     const [tentId, setTentId] = useState([]);
-    const history = useHistory();
+    // const [provinceSearchh, setProvinceSearchh] = useState([]);
+    // const [peopleAmountSearchh, setPeopleAmountSearchh] = useState([]);
     const [search, setSearch] = useState({
         provinceSearch: '',
         peopleAmountSearch: ''
@@ -108,11 +112,15 @@ function Home() {
             <section className="tents extra-margin">
                 {filteredTent.filter((item)=> {
                     const { provinceSearch, peopleAmountSearch} = search;
-                    if (provinceSearch && peopleAmountSearch) {
-                        console.log("testje " + peopleAmountSearch)
-                        return item.province.toLowerCase().includes(provinceSearch.toLowerCase());
-                    }  
-                     return true; 
+                    console.log("test " + provinceSearch + " test " + peopleAmountSearch);
+                    if(item.province.toLowerCase().includes(provinceSearch.toLowerCase())) {
+                        return true;
+                    }
+                    
+                    if (item.maxNumberOfPersons.toString().includes(peopleAmountSearch.toString())) {
+                        return true;
+                    }
+                    
                 }).map((tent, index) => {
                     return <section onClick={()=>getTent(tent.id)}>
                         <Tile

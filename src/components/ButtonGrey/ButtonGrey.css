@@ -1,0 +1,8 @@
+.buttonGrey {
+  border: none;
+  background-color: #d2d2d2;
+  color: #333;
+  cursor: pointer;
+  padding: 10px 50px;
+  margin: 0 50px;
+}
