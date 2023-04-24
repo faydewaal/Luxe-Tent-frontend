@@ -8,8 +8,6 @@ import Tile
     from "../components/tile/Tile";
 import PageBanner
     from "../components/page-banner/PageBanner";
-import Footer
-    from "../components/Footer/Footer";
 import axios
     from "axios";
 import tent from '../assets/tent.jpg';
@@ -23,17 +21,8 @@ function Home() {
     const history = useHistory();
     const [filteredTent, setFilteredTent] = useState([]);
     const [tentId, setTentId] = useState([]);
-    // const [provinceSearchh, setProvinceSearchh] = useState([]);
-    // const [peopleAmountSearchh, setPeopleAmountSearchh] = useState([]);
-    const [search, setSearch] = useState({
-        provinceSearch: '',
-        peopleAmountSearch: ''
-    })
-    const handleSearchbar = e => {
-        setSearch({...search, 
-            provinceSearch: e.target.value, 
-            peopleAmountSearch: e.target.value})
-    }
+    const [provinceSearch, setProvinceSearch] = useState('');
+    const [peopleAmountSearch, setPeopleAmountSearch] = useState('');
 
     useEffect(() => {
         async function getFilteredTenten() {
@@ -70,7 +59,7 @@ function Home() {
                             <select className="input-field" 
                             name="province" 
                             id="province" 
-                            onChange={(e) => handleSearchbar(e)}>
+                            onChange={(e) => setProvinceSearch(e.target.value)}>
                                 <option value="">Geen voorkeur</option>
                                 <option value="drenthe">Drenthe</option>
                                 <option value="flevoland">Flevoland</option>
@@ -91,7 +80,7 @@ function Home() {
                             <label htmlFor="people-amount">Personen</label>
                             <select
                                 className="input-field"
-                                onChange={(e) => handleSearchbar(e)}>
+                                onChange={(e) => setPeopleAmountSearch(e.target.value)}>
                                     <option value="">geen voorkeur</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -108,19 +97,12 @@ function Home() {
                     </form>
             </section>
 
-
             <section className="tents extra-margin">
                 {filteredTent.filter((item)=> {
-                    const { provinceSearch, peopleAmountSearch} = search;
-                    console.log("test " + provinceSearch + " test " + peopleAmountSearch);
-                    if(item.province.toLowerCase().includes(provinceSearch.toLowerCase())) {
+                    console.log("test " + provinceSearch + " " + peopleAmountSearch);
+                    if(item.province.toLowerCase().includes(provinceSearch.toLowerCase()) && item.maxNumberOfPersons.toString().includes(peopleAmountSearch.toString())) {
                         return true;
                     }
-                    
-                    if (item.maxNumberOfPersons.toString().includes(peopleAmountSearch.toString())) {
-                        return true;
-                    }
-                    
                 }).map((tent, index) => {
                     return <section onClick={()=>getTent(tent.id)}>
                         <Tile
