@@ -34,16 +34,13 @@ function Home() {
                 console.error(e);
             }
         }
-
-
         getFilteredTenten();
-
     },[]);
+
 
     function getTent(tentId) {
         history.push('/accomodatie?deTentId='+tentId);
     }
-
     return (
         <>
             <PageBanner

@@ -42,6 +42,15 @@ function SingleTent() {
                 <p>{tentData.description}</p>
                 <h4>Prijs: {tentData.pricePerNight}</h4>
                 <h4>Geschikt voor {tentData.maxNumberOfPersons} personen</h4>
+                
+                <section className="banaan">
+                    {tentData.tentOptions && tentData.tentOptions.map((appel)=> {
+                        return (
+                            <h4>tentOpties: {appel=appel.optionName}</h4>
+                        )
+                    })}
+                </section>
+
                 <h4>Adres:</h4>
                 <h6>{tentData.street} {tentData.houseNumber}</h6>
                 <h6>{tentData.city}</h6>
