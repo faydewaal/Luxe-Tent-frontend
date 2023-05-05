@@ -18,6 +18,7 @@ function Profile() {
     const {user: {username}} = useContext(AuthContext);
     const token = localStorage.getItem('token');
     const [profileData, setProfileData] = useState([]);
+    const [filteredOption, setFilteredOption] = useState([]);
 
     const [toggle, setToggle] = useState(false)
     const [title, setTitle] = useState('');
@@ -31,9 +32,36 @@ function Profile() {
     const [houseNumber, setHouseNumber] = useState('');
     const [city, setCity] = useState('');
     const [province, setProvince] = useState('');
-    const [tentOptions, setTentOptions] = useState('');
+    const [fietsverhuur, setFietsverhuur] = useState('1');
+
+
+    let optionId = '';
+    const handleOptionChange = (e) => {
+        const fietsie = e.target.checked;
+        console.log(fietsie)
+        if (fietsie) {
+            optionId = fietsverhuur
+            console.log(optionId)
+        } else (
+            optionId = ''
+        )
+      }
 
     const form = document.getElementById('tent-upload');
+
+    useEffect(() => {
+        async function getTentOption() {
+            try {
+                const options = await axios.get("http://localhost:8080/options");
+                console.log("options: " + options.data);
+                setFilteredOption(options.data);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        getTentOption();
+    },[]);
+
 
     useEffect(() => {
         async function fetchProfileData() {
@@ -46,7 +74,7 @@ function Profile() {
                     },
                 });
                 setProfileData(result.data);
-                console.log("userrr" + result.data.tent);
+                console.log("by user created tents " + result.data.tent);
             } catch (e) {
                 console.error(e);
             }
@@ -75,8 +103,7 @@ function Profile() {
                 street: streetName,
                 houseNumber: houseNumber,
                 city: city,
-                province: province,
-                tentOptions: tentOptions
+                province: province
             });
 
             myTentId = response.data.id;
@@ -114,7 +141,7 @@ function Profile() {
         }
 
         try {
-            const anotherUrl = `http://localhost:8080/tents/options/${myTentId}/2`;
+            const anotherUrl = `http://localhost:8080/tents/options/${myTentId}/${optionId}`;
             await axios.put(anotherUrl)
         } catch(e) {
             console.log(e);
@@ -253,10 +280,11 @@ function Profile() {
                         <input type="checkbox" 
                                name="option" 
                                id="FietsVerhuur" 
-                               value={tentOptions}
-                               onChange={(e) => setTentOptions(e.target.value)}
+                               onChange={handleOptionChange}
+                               value={setFietsverhuur}
                         />
-                        <label htmlFor="Jacuzzi">Jacuzzi</label>
+
+                        {/* <label htmlFor="Jacuzzi">Jacuzzi</label>
                         <input type="checkbox" 
                                name="option" 
                                id="Jacuzzi" 
@@ -270,7 +298,7 @@ function Profile() {
                                id="BBQ Grill" 
                                value={tentOptions}
                                onChange={(e) => setTentOptions(e.target.value)}
-                        />
+                        /> */}
 
                         <button type="submit">Verstuur</button>
                     </form>

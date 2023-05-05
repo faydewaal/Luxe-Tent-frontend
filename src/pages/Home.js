@@ -18,7 +18,7 @@ import {
 
 
 function Home() {
-    const history = useHistory();
+    const history = useHistory(); 
     const [filteredTent, setFilteredTent] = useState([]);
     const [tentId, setTentId] = useState([]);
     const [provinceSearch, setProvinceSearch] = useState('');
@@ -34,16 +34,13 @@ function Home() {
                 console.error(e);
             }
         }
-
-
         getFilteredTenten();
-
     },[]);
+
 
     function getTent(tentId) {
         history.push('/accomodatie?deTentId='+tentId);
     }
-
     return (
         <>
             <PageBanner
